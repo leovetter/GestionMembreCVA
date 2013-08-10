@@ -1,0 +1,19 @@
+{% if etudiants != null %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+   
+  <body>
+  	{% for etu in etudiants %}
+		<tr id="{{ etu.id }}" numEtu="{{ etu.numEtudiant}}">
+			  <td>{{ etu.numEtudiant}}</td>
+			  <td>{{ etu.name }}</td>
+			  <td>{{ etu.firstName}}</td>
+			  <td>{{ etu.mail }}</td>
+		</tr>	
+	{% endfor %}
+  </body>
+</html>
+{% endif %}

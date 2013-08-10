@@ -1,0 +1,19 @@
+Cva\GestionMembreBundle\Entity\Etudiant:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: mail
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: numEtudiant
+    properties:
+        numEtudiant:
+            - Regex:
+                pattern: "/^[0-9]+$/"
+                match: true
+                message: Le numéro d'étudiant contient uniquement des chiffres
+        tel:
+            - Regex:
+                pattern: "/^[0-9]+$/"
+                match: true
+                message: Le téléphone contient uniquement des chiffres
+        civilite:
+            - NotNull: ~
+        birthday:
+            - NotNull: ~

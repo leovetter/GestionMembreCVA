@@ -1,0 +1,115 @@
+#Bizuths
+cva_gestion_membre_ajoutAdherent:
+    pattern:  /ajoutAdherent
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:ajoutAdherent }
+
+cva_gestion_membre_caca:
+    pattern:  /
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:caca }
+
+cva_gestion_membre_paiement:
+    pattern:  /paiement
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:paiement }
+
+cva_gestion_membre_editPaiement:
+    pattern:  /editPaiement
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:editPaiement }
+
+cva_gestion_membre_deletePaiement:
+    pattern:  /deletePaiement
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:deletePaiement }
+
+cva_gestion_membre_deleteAdherent:
+    pattern:  /deleteAdherent
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:deleteAdherent }
+
+cva_gestion_membre_adherent:
+    pattern:  /adherent
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:adherent }
+
+cva_gestion_membre_tableAdherent:
+    pattern:  /tableadherent
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:tableAdherent }
+
+cva_gestion_membre_admin:
+    pattern:  /admin
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:admin }
+
+cva_gestion_membre_detail:
+    pattern:  /detailetudiant
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:detailetudiant }
+
+cva_gestion_membre_recherche:
+    pattern:  /rechercheetudiant
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:rechercheetudiant }
+
+cva_gestion_membre_edit:
+    pattern:  /editetudiant
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:editEtudiant }
+
+cva_gestion_membre_editConfirm:
+    pattern:  /editetudiantConfirm
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:editEtudiantConfirm }
+
+#Zone Admin
+cva_gestion_membre_addUser:
+    pattern:  /admin/addUser
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:addUser }
+
+cva_gestion_membre_modifUser:
+    pattern:  /admin/modifUser
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:modifUser }
+
+cva_gestion_membre_editUser:
+    pattern:  /admin/editUser
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:editUser }
+
+cva_gestion_membre_deleteUser:
+    pattern:  /admin/deleteUser
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:deleteUser }
+
+cva_gestion_membre_addProduit:
+    pattern:  /admin/addProduit
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:addProduit }
+
+cva_gestion_membre_editProduit:
+    pattern:  /admin/editProduit
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:editProduit }
+
+cva_gestion_membre_tableauProduits:
+    pattern:  /admin/tableauProduits
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:tableauProduits }
+
+cva_gestion_membre_deleteProduit:
+    pattern:  /admin/deleteProduit
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:deleteProduit }
+
+cva_gestion_membre_deleteAdherent:
+    pattern:  /admin/deleteAdherent
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:deleteAdherent }
+
+#Autres
+cva_gestion_membre_profil:
+    pattern:  /profil
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:profil }
+
+#Zone CoWEI
+cva_gestion_membre_ajoutBizuthWEI:
+    pattern:  /wei/ajoutBizuthWEI
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:ajoutBizuthWEI }
+
+cva_gestion_membre_rechercheBizuthWEI:
+    pattern:  /wei/rechercheBizuthWEI
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:rechercheBizuthWEI }
+
+cva_gestion_membre_editBizuthWEI:
+    pattern:  /wei/editetudiant
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:editEtudiant }	
+
+cva_gestion_membre_paiementBizuthWEI:
+    pattern:  /wei/paiement
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:paiement }
+
+cva_gestion_membre_ajoutDetailsWEI:
+    pattern:  /wei/ajoutDetailsWEI
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:ajoutDetailsWEI }

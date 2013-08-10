@@ -1,0 +1,126 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+	{% block title %} Rechercher Adherent {% endblock %}
+
+	{% block navbar %}
+
+		{{ navbar.input('','active') }}
+
+	{% endblock %}
+	
+	{% block content %}
+	
+		<div class ="container">
+		<div class="row">
+				<div class="span9" id="put_table_here">
+					<table id="table_adherent" class="table table-bordered table-hover table-striped">
+					  <thead>
+ 						<tr id="search">
+							<th>
+								N°Etudiant
+							</th>
+							<th>
+								Nom
+							</th>
+							<th>
+								Prénom
+							</th>
+							<th>
+								Email
+							</th>
+						</tr> 
+					  </thead>					  
+					  <tbody id="etudiants">	
+						{% for adh in adherent %}
+								<tr id="{{ adh.id }}" numEtu="{{ adh.numEtudiant}}">
+									  <td>{{ adh.numEtudiant}}</td>
+									  <td>{{ adh.name }}</td>
+									  <td>{{ adh.firstName}}</td>
+									  <td>{{ adh.mail }}</td>
+								</tr>	
+						{% endfor %}
+					  </tbody>
+					</table>
+				</div>
+					
+				<div class="span3">
+					
+					<div class="btn-group"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> Filtrer par : <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+								<li><a href="{{path('cva_gestion_membre_adherent')}}">Aucun Filtre</a></li>
+							{% for prod in produit %}
+								<li><a href="{{path('cva_gestion_membre_adherent')}}?prod={{ prod.id }}">{{ prod.description }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>		
+
+					<table class="table table-bordered detailed-table">
+						<thead>
+							<th>
+								Détails:
+							</th>
+						</thead>
+					  <tbody id="detailed-body" class="details">
+						<tr class="loading">
+							<td>
+								<img src="http://authenticate.hublot.com/interface/img/icons/loading.gif" />
+							</td>
+						</tr>
+						<tr class="infos">
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<form action="" class="text-center btModifierEtudiant">
+									<input type="hidden" name="id" value="" />
+									{% if is_granted('ROLE_PERM') %}
+									<button type="submit" class="btn">Modifier</button>
+									{% endif %}
+									{% if is_granted('ROLE_MODO') %}
+										<a href="#myModal" role="button" class="btn" data-toggle="modal">Supprimer</a>
+									{% endif %}
+								</form>
+								
+								
+							</td>
+						</tr>
+						<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								  <div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+										<h3 id="myModalLabel">Confirmation</h3>
+								  </div>
+								  <div class="modal-body">
+										<p>Voulez-vous vraiment supprimer cet utilisateur ?</p>
+								  </div>
+								  <div class="modal-footer">
+										<button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+										<a role="button" href="" class="btn btn-primary">Oui</a>
+								  </div>
+						</div>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		{% for flashMessage in app.session.flashbag.get('notice') %}
+			<div class="row">
+				<div class="span4 offset2 alert alert-success">
+				  <button type="button" class="close" data-dismiss="alert">&times;</button>
+				  <strong>{{ flashMessage }}</strong>
+				</div>
+			</div>
+		{% endfor %}
+		
+		{% endblock %}
+			
+		{% block javascripts %}
+			   {{ parent() }}
+				<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>	
+			{% javascripts
+				'@CvaGestionMembreBundle/Resources/views/js/tableau.js'  %}				
+				<script type="text/javascript" src="{{ asset_url }}"></script>
+			{% endjavascripts %}
+		{% endblock %}
