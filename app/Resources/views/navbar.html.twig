@@ -3,7 +3,7 @@
 <div class="container">
 	<div class="navbar">
   		<div class="navbar-inner">
-	    		<a class="brand" href="#">Menu</a>
+	    		<a class="brand" href="#"></a>
 	    			<ul class="nav">
 						{% if is_granted('ROLE_SOIREE') %}
 							<li class="{{add}}"><a href="{{path('cva_gestion_membre_ajoutAdherent')}}">Ajout d'Adherent</a></li>
@@ -39,7 +39,8 @@
 	      			</ul>
 
 				<ul class="nav pull-right">
-					<li class="{{profil}}"><a href="{{ path('cva_gestion_membre_profil') }}">Profil {{ app.user.username }} </a></li>
+				{% if is_granted('ROLE_PERM') %}
+					<li class="{{profil}}"><a href="{{ path('cva_gestion_membre_profil') }}">Profil {{ app.user.username }} </a></li> {% endif %}
 					<li><a href="{{path('logout')}}">Deconnexion</a></li>
 	    			</ul>
 	 		</div>

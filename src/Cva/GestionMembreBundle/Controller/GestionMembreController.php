@@ -101,7 +101,7 @@ class GestionMembreController extends Controller
 
 	public function paiementAction(Request $request)
 	{
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$produits = $this->get('cva_gestion_membre')->GetAllProduitDispo();
 		$paiement = new Paiement();
 		$paiementType = new PaiementType($produits);
@@ -113,6 +113,12 @@ class GestionMembreController extends Controller
 
 			if ($form->isValid()) 
 			{
+
+				if(sizeof($form->get('Produits')->getData()) == 0) {
+
+					$this->get('session')->getFlashBag()->add('warning', 'Vous devez choisir au moins un produit');
+					return $this->redirect($this->generateUrl('cva_gestion_membre_paiement', array('id' => $request->request->get('id'))));
+				} 
 				foreach($produits as $prod)
 				{
 					foreach($form->get('Produits')->getData() as $desc)

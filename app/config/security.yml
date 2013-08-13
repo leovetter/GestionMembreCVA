@@ -44,3 +44,4 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/wei, roles: ROLE_COWEI }
         - { path: ^/ajoutAdherent, roles: ROLE_SOIREE }
+        - { path: ^/profil, roles: ROLE_PERM }
