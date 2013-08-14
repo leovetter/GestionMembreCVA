@@ -17,6 +17,7 @@ class PaiementType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+	$formProd = array();
 	foreach($this->produits as $prod)
 	{
 		$formProd[$prod->getDescription()] = $prod->getDescription() . ' - ' . $prod->getPrice() . ' €';
