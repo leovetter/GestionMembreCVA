@@ -96,7 +96,7 @@ function voir(idEtu) {
 var idSelected = -1;
 
 /*$(function() {
-	detailsOnClick();
+	detailsOnClick() ;
 });*/
 
 function fillDataTable() {	
