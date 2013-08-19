@@ -27,18 +27,22 @@
 								Bus
 							</th>
 							<th>
-								bungalow
+								Bungalow
+							</th>
+							<th class="hidden">
+								Produits
 							</th>
 						</tr> 
 					  </thead>					  
 					  <tbody id="etudiants">			  
 
 						{% for adh in adherent %}
-								<tr id="{{ adh.bizuth.id }}" numEtu="{{ adh.bizuth.numEtudiant}}">
+								<tr id="{{ adh.bizuth.id }}" numEtu="{{ adh.bizuth.numEtudiant}}" onclick="return voir({{ adh.bizuth.id }});">
 									  <td>{{ adh.bizuth.name}}</td>
 									  <td>{{ adh.bizuth.firstName }}</td>
 									  <td>{{ adh.bus }}</td>
 									  <td>{{ adh.bung }}</td>
+									<td class="hidden">{% for paiement in adh.prods %} {% for prod in paiement %}{{ prod.description }} {% endfor %} {% endfor %} </td>
 								</tr>	
 						{% endfor %}	
 
@@ -46,15 +50,7 @@
 					</table>
 				</div>
 						
-				<div class="span3">
-					<div class="btn-group"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> Filtrer par : <span class="caret"></span> </a>
-						<ul class="dropdown-menu">
-								<li><a href="{{path('cva_gestion_membre_rechercheBizuthWEI')}}">Aucun Filtre</a></li>
-							{% for prod in produit %}
-								<li><a href="{{path('cva_gestion_membre_rechercheBizuthWEI')}}?prod={{ prod.id }}">{{ prod.description }}</a></li>
-							{% endfor %}
-						</ul>
-					</div>		
+				<div class="span3">		
 				
 					<table class="table table-bordered detailed-table">
 						<thead>
@@ -69,23 +65,9 @@
 							</td>
 						</tr>
 						<tr class="infos">
-							<td></td>
+							<td id="voirEtudiant"></td>
 						</tr>
-						<tr>
-							<td>
-								<form action="" class="text-center btModifierEtudiant">
-									<input type="hidden" name="id" value="" />
-									{% if is_granted('ROLE_PERM') %}
-									<button type="submit" class="btn">Modifier</button>
-									{% endif %}
-									{% if is_granted('ROLE_MODO') %}
-										<a href="#myModal" role="button" class="btn" data-toggle="modal">Supprimer</a>
-									{% endif %}
-								</form>
-								
-								
-							</td>
-						</tr>
+
 						<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 								  <div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>

@@ -227,6 +227,35 @@ class GestionMembreController extends Controller
 		$this->get('session')->getFlashBag()->add('notice', 'Adherent supprimÃ©');
 		return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
 	}
+
+	public function voirDetailsAction(Request $request)
+	{
+		$idEtu = $request->query->get('idEtu');
+
+		if(isset($idEtu))
+		{
+			$etudiantRecherche = $this->get('cva_gestion_membre')->GetEtudiantById($idEtu);
+
+			$paiements = $this->get('cva_gestion_membre')->GetPaiementEtudiant($etudiantRecherche->getId());
+			if ($paiements)
+			{
+				foreach ($paiements as $paiement)
+				{
+					foreach ($paiement->getProduits() as $prod)
+					{
+						$produits[] = $prod;
+					}
+				}
+			}
+			else
+			{
+				$produits = new Produit();
+				$produits->setDescription("Aucun");
+			}
+			
+			return $this->render('CvaGestionMembreBundle::voirDetails.html.twig', array('etu' => $etudiantRecherche, 'produits' => $produits));
+		}
+	}
 	
 	public function detailetudiantAction(Request $request)
     {
@@ -253,17 +282,34 @@ class GestionMembreController extends Controller
 	
 	public function adherentAction(Request $request)
     {
-		$produit = $this->get('cva_gestion_membre')->GetAllProduitDispo();
-			
-		if ($request->query->get('prod')==null)
-		{
-			$adherent = $this->get('cva_gestion_membre')->GetAllEtudiant();	
-		}
-		else
-		{
-			$adherent = $this->get('cva_gestion_membre')->GetEtudiantByProduit($request->query->get('prod'));
-		}
-		return $this->render('CvaGestionMembreBundle::rechercheAdherent.html.twig', array('adherent' => $adherent, 'produit' => $produit) );
+
+			$allAdherents = $this->get('cva_gestion_membre')->GetAllEtudiant();
+			foreach($allAdherents as $i => $adh)
+			{
+				//On récupère les paiements et les produits de cet adherent
+				$paiements = $this->get('cva_gestion_membre')->GetPaiementEtudiant($adh->getId());
+				if ($paiements)
+				{
+					foreach ($paiements as $paiement)
+					{
+						foreach ($paiement->getProduits() as $prod)
+						{
+							$produits[] = $prod;
+						}
+					}
+				}
+				else
+				{
+					$produits = new Produit();
+					$produits->setDescription("Aucun");
+				}
+
+				$adherent[$i]['etudiant'] = $adh;
+				$adherent[$i]['produit'] = $produits;
+			}
+	
+		
+		return $this->render('CvaGestionMembreBundle::rechercheAdherent.html.twig', array('adherent' => $adherent) );
     }
 	
 	public function tableAdherentAction(Request $request)
@@ -305,18 +351,14 @@ class GestionMembreController extends Controller
 	
 	public function rechercheBizuthWEIAction(Request $request)
     {
-		$produit = $this->get('cva_gestion_membre')->GetAllProduitDispo();
 			
 		if ($request->query->get('prod')==null)
 		{
 			$adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails();
 		}
-		else
-		{
-			$adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($request->query->get('prod'));
-		}
 
-		return $this->render('CvaGestionMembreBundle::rechercheBizuthWEI.html.twig', array('adherent' => $adherent, 'produit' => $produit) );
+
+		return $this->render('CvaGestionMembreBundle::rechercheBizuthWEI.html.twig', array('adherent' => $adherent) );
     }
 	
 	public function ajoutDetailsWEIAction(Request $request)

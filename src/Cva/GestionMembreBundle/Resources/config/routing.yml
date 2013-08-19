@@ -39,6 +39,10 @@ cva_gestion_membre_detail:
     pattern:  /detailetudiant
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:detailetudiant }
 
+cva_gestion_membre_voirDetails:
+    pattern:  /voirDetails
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:voirDetails }
+
 cva_gestion_membre_recherche:
     pattern:  /rechercheetudiant
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:rechercheetudiant }
@@ -113,3 +117,7 @@ cva_gestion_membre_paiementBizuthWEI:
 cva_gestion_membre_ajoutDetailsWEI:
     pattern:  /wei/ajoutDetailsWEI
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:ajoutDetailsWEI }
+
+cva_gestion_membre_voirDetails2:
+    pattern:  /wei/voirDetails
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:voirDetails }

@@ -41,7 +41,15 @@ function ouvrirLigne ( i ) {
 	$(ligneAct).toggleClass("hover");
 }
 
-function detailsOnClick() {
+function voir(idEtu) {
+
+	$.get("voirDetails?idEtu=" + idEtu,
+	function(msg){
+		$("#voirEtudiant").html(msg);
+	});
+}
+
+/*function detailsOnClick() {
 	
 	$("#etudiants tr").each(function(i) {
 		ligneAct = $("#etudiants tr")[i];
@@ -79,17 +87,17 @@ function detailsOnClick() {
 			
 			var newUrl = "test.html?idEtudiant="+idAct;
 			window.location.replace(newUrl);
-		});*/
+		});/
 	});
 	
-}
+}*/
 
 //Permet de savoir quelle ligne est selectionné. -1 si aucune
 var idSelected = -1;
 
-$(function() {
+/*$(function() {
 	detailsOnClick();
-});
+});*/
 
 function fillDataTable() {	
 				var TableAssemblees = $('#table_adherent').dataTable({

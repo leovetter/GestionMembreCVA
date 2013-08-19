@@ -30,31 +30,27 @@
 							<th>
 								Email
 							</th>
+							<th class="hidden">
+								Produits
+							</th>
 						</tr> 
 					  </thead>					  
 					  <tbody id="etudiants">	
 						{% for adh in adherent %}
-								<tr id="{{ adh.id }}" numEtu="{{ adh.numEtudiant}}">
-									  <td>{{ adh.numEtudiant}}</td>
-									  <td>{{ adh.name }}</td>
-									  <td>{{ adh.firstName}}</td>
-									  <td>{{ adh.mail }}</td>
+								<tr id="{{ adh['etudiant'].id }}" numEtu="{{ adh['etudiant'].numEtudiant}}" onclick="return voir({{ adh['etudiant'].id }});">
+									  <td>{{ adh['etudiant'].numEtudiant}}</td>
+									  <td>{{ adh['etudiant'].name }}</td>
+									  <td>{{ adh['etudiant'].firstName}}</td>
+									  <td>{{ adh['etudiant'].mail }}</td>
+									  <td class="hidden">{% for prod in adh['produit'] %} {{ prod.description }} {% endfor %} </td>
+
 								</tr>	
 						{% endfor %}
 					  </tbody>
 					</table>
 				</div>
 					
-				<div class="span3">
-					
-					<div class="btn-group"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"> Filtrer par : <span class="caret"></span> </a>
-						<ul class="dropdown-menu">
-								<li><a href="{{path('cva_gestion_membre_adherent')}}">Aucun Filtre</a></li>
-							{% for prod in produit %}
-								<li><a href="{{path('cva_gestion_membre_adherent')}}?prod={{ prod.id }}">{{ prod.description }}</a></li>
-							{% endfor %}
-						</ul>
-					</div>		
+				<div class="span3">	
 
 					<table class="table table-bordered detailed-table">
 						<thead>
@@ -63,29 +59,10 @@
 							</th>
 						</thead>
 					  <tbody id="detailed-body" class="details">
-						<tr class="loading">
-							<td>
-								<img src="http://authenticate.hublot.com/interface/img/icons/loading.gif" />
-							</td>
-						</tr>
 						<tr class="infos">
-							<td></td>
+							<td id="voirEtudiant"></td>
 						</tr>
-						<tr>
-							<td>
-								<form action="" class="text-center btModifierEtudiant">
-									<input type="hidden" name="id" value="" />
-									{% if is_granted('ROLE_PERM') %}
-									<button type="submit" class="btn">Modifier</button>
-									{% endif %}
-									{% if is_granted('ROLE_MODO') %}
-										<a href="#myModal" role="button" class="btn" data-toggle="modal">Supprimer</a>
-									{% endif %}
-								</form>
-								
-								
-							</td>
-						</tr>
+
 						<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 								  <div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
@@ -101,6 +78,7 @@
 						</div>
 					  </tbody>
 					</table>
+
 				</div>
 			</div>
 		</div>
