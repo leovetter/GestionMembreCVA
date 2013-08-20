@@ -5,9 +5,9 @@ Cva\GestionMembreBundle\Entity\Etudiant:
     properties:
         numEtudiant:
             - Regex:
-                pattern: "/^[0-9]+$/"
+                pattern: "/^[0-9]{7}$/"
                 match: true
-                message: Le numéro d'étudiant contient uniquement des chiffres
+                message: Le numéro d'étudiant est incorrect 
         tel:
             - Regex:
                 pattern: "/^[0-9]{2}([.-\s]?[0-9]{2}){4}$|^\+[0-9]{2}[.-\s]?[0-9]([.-\s]?[0-9]{2}){4}$/"
