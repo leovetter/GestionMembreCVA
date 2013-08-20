@@ -27,25 +27,13 @@ cva_gestion_membre_adherent:
     pattern:  /adherent
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:adherent }
 
-cva_gestion_membre_tableAdherent:
-    pattern:  /tableadherent
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:tableAdherent }
-
 cva_gestion_membre_admin:
     pattern:  /admin
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:admin }
 
-cva_gestion_membre_detail:
-    pattern:  /detailetudiant
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:detailetudiant }
-
 cva_gestion_membre_voirDetails:
     pattern:  /voirDetails
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:voirDetails }
-
-cva_gestion_membre_recherche:
-    pattern:  /rechercheetudiant
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:rechercheetudiant }
 
 cva_gestion_membre_edit:
     pattern:  /editetudiant

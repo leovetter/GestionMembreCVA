@@ -257,29 +257,6 @@ class GestionMembreController extends Controller
 		}
 	}
 	
-	public function detailetudiantAction(Request $request)
-    {
-		$etudiants = $this->get('cva_gestion_membre')->GetEtudiant('', '', $request->query->get('etudiant'), '');
-		$etudiant = $etudiants[0];
-		$paiements = $this->get('cva_gestion_membre')->GetPaiementEtudiant($etudiant->getId());
-		if ($paiements)
-		{
-			foreach ($paiements as $paiement)
-			{
-				foreach ($paiement->getProduits() as $prod)
-				{
-					$produits[] = $prod;
-				}
-			}
-		}
-		else
-		{
-			$produits = new Produit();
-			$produits->setDescription("Aucun");
-		}
-		return $this->render('CvaGestionMembreBundle::getetudiant.html.twig', array('etudiants' => $etudiants, 'produits' => $produits));
-    }
-	
 	public function adherentAction(Request $request)
     {
 
@@ -300,8 +277,9 @@ class GestionMembreController extends Controller
 				}
 				else
 				{
-					$produits = new Produit();
-					$produits->setDescription("Aucun");
+					
+					$produits = array();
+					
 				}
 
 				$adherent[$i]['etudiant'] = $adh;
@@ -310,21 +288,6 @@ class GestionMembreController extends Controller
 	
 		
 		return $this->render('CvaGestionMembreBundle::rechercheAdherent.html.twig', array('adherent' => $adherent) );
-    }
-	
-	public function tableAdherentAction(Request $request)
-    {
-		$produit = $this->get('cva_gestion_membre')->GetAllProduitDispo();
-			
-		if ($request->query->get('prod')==null)
-		{
-			$adherent = $this->get('cva_gestion_membre')->GetAllEtudiant();	
-		}
-		else
-		{
-			$adherent = $this->get('cva_gestion_membre')->GetEtudiantByProduit($request->query->get('prod'));
-		}
-		return $this->render('CvaGestionMembreBundle::tableAdherent.html.twig', array('adherent' => $adherent, 'produit' => $produit) );
     }
 	
 	//WEI
@@ -561,12 +524,6 @@ class GestionMembreController extends Controller
     }
 	
     //Others
-	
-    public function rechercheetudiantAction(Request $request)
-    {
-		$etudiants = $this->get('cva_gestion_membre')->GetEtudiant($request->query->get('name'), $request->query->get('firstName'), $request->query->get('numEtudiant'), $request->query->get('mail'), $request->query->get('debut'));
-		return $this->render('CvaGestionMembreBundle::resAjaxEtudiants.html.twig', array('etudiants' => $etudiants));
-    }
 		
 	 public function loginAction()
 	  {

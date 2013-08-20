@@ -3,8 +3,9 @@
 			  <p><span class="label label-info">Nom</span><br />{{ etu.name }}</p>
 			  <p><span class="label label-info">Prénom</span><br />{{ etu.firstName }}</p>
 			  <p><span class="label label-info">Etudes</span><br />{{ etu.annee }}{{ etu.departement }}</p>
-			  <p><span class="label label-info">Civilité</span><br />{{ etu.civilite }}</p>
+			  <p><span class="label label-info">Téléphone</span><br />{{ etu.tel }}</p>
 			  <p><span class="label label-info">Email</span><br />{{ etu.mail }}</p>
+			  <p><span class="label label-info">Civilité</span><br />{{ etu.civilite }}</p>
 			  <p><span class="label label-info">Naissance</span><br />{{ etu.birthday|date('Y-m-d') }}</p>
 			  {% if is_granted('ROLE_COWEI') %}
 			  <p><span class="label label-info">Remarque</span><br />{{ etu.remarque }}</p>
