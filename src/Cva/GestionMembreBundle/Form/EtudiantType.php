@@ -20,7 +20,7 @@ class EtudiantType extends AbstractType
 		->add('numEtudiant', 'text', array('required' => false))
 		->add('birthday', 'birthday', array('format' => 'dd MMMM yyyy','widget' => 'choice','years' => range( date('Y')-15,date('Y')-70)))
 		->add('mail', 'email')
-		->add('tel', 'text')
+		->add('tel', 'text', array('required' => false))
 		->add('civilite', 'choice', array('choices' => array('Mme' => 'Mme.', 'M' => 'M.'),'required'  => true, 'expanded' => true ))
 		->add('remarque','text', array('required' => false))
 		->add('id', 'hidden');

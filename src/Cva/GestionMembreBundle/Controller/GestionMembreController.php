@@ -17,6 +17,7 @@ use Cva\GestionMembreBundle\Entity\Paiement;
 use Cva\GestionMembreBundle\Entity\User;
 use Cva\GestionMembreBundle\Entity\DetailsWEI;
 use Symfony\Component\HttpFoundation\Request;
+use \DateTime;
 
 class GestionMembreController extends Controller
 {
@@ -117,7 +118,7 @@ class GestionMembreController extends Controller
 				if(sizeof($form->get('Produits')->getData()) == 0) {
 
 					$this->get('session')->getFlashBag()->add('warning', 'Vous devez choisir au moins un produit');
-					return $this->redirect($this->generateUrl('cva_gestion_membre_paiement', array('id' => $request->request->get('id'))));
+					return $this->redirect($this->generateUrl('cva_gestion_membre_editPaiement', array('id' => $request->request->get('id'))));
 				} 
 				foreach($produits as $prod)
 				{
@@ -129,7 +130,7 @@ class GestionMembreController extends Controller
 							if($this->get('cva_gestion_membre')->EtudiantAlreadyGotProduct($request->request->get('id'),$prod)==true)
 							{
 								$this->get('session')->getFlashBag()->add('warning', 'Cet etudiant possede deja ce produit');
-								return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
+								return $this->redirect($this->generateUrl('cva_gestion_membre_editPaiement', array('id' => $request->request->get('id'))));
 							}
 							$paiement->addProduit($prod);
 						}
@@ -141,10 +142,13 @@ class GestionMembreController extends Controller
 				$em->persist($paiement);
 				$em->flush();
 				$this->get('session')->getFlashBag()->add('notice', 'Paiement effectuÃ©');
-				return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
+				if($request->request->get('from'))
+					return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutBizuthWEI'));				
+
+return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
 			}
 		}
-		return $this->render('CvaGestionMembreBundle::paiement.html.twig', array('form' => $form->createView(), 'id' => $request->query->get('id')));
+		return $this->render('CvaGestionMembreBundle::paiement.html.twig', array('from' => $request->request->get('from'),'form' => $form->createView(), 'id' => $request->query->get('id')));
 	}
 	
 	public function editPaiementAction(Request $request)
@@ -156,7 +160,7 @@ class GestionMembreController extends Controller
 		$paiementType = new PaiementType($produits);
 		$form = $this->createForm($paiementType, $paiement);
 		
-		if($request->isMethod('POST'))
+		/*if($request->isMethod('POST'))
 		{
 			$form->bind($request);
 			if ($form->isValid()) 
@@ -166,15 +170,17 @@ class GestionMembreController extends Controller
 				$this->get('session')->getFlashBag()->add('notice', 'Paiement modifiÃ©');
 				return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
 			}
-		}
+		}*/
 		
 		return $this->render('CvaGestionMembreBundle::paiement.html.twig', array('form' => $form->createView(), 'id' => $request->query->get('id'), 'paiementsEtud' => $paiementsEtud));
     }
 	
 	public function deletePaiementAction(Request $request) {
-	
+		
+		$idEtu = $request->query->get('idEtu');
 		$em = $this->getDoctrine()->getManager();		
 		$paiement = $this->get('cva_gestion_membre')->GetPaiementById($request->query->get('idPaiement'));
+//die(var_dump($paiement));
 		if(sizeof($paiement->getProduits())==1)
 		{
 			$em->remove($paiement);
@@ -186,7 +192,7 @@ class GestionMembreController extends Controller
 		}
 		$em->flush();
 		$this->get('session')->getFlashBag()->add('notice', 'Modification enregistree');
-		return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
+		return $this->redirect($this->generateUrl('cva_gestion_membre_editPaiement',array('id'=>$idEtu)));
 	}
 	
 	public function editEtudiantAction(Request $request)
@@ -216,9 +222,13 @@ class GestionMembreController extends Controller
 		$em = $this->getDoctrine()->getManager();		
 		$adh = $this->get('cva_gestion_membre')->GetEtudiantById($request->query->get('id'));
 		$paiements= $this->get('cva_gestion_membre')->GetPaiementEtudiant($request->query->get('id'));
+		$details = $this->get('cva_gestion_membre')->GetDetailsByIdEtudiant($request->query->get('id'));
 	
 		foreach ($paiements as &$value) {
 		$em->remove($value);
+		}
+		if($details){
+		$em->remove($details);
 		}
 		
 		$em->remove($adh);
@@ -261,6 +271,8 @@ class GestionMembreController extends Controller
     {
 
 			$allAdherents = $this->get('cva_gestion_membre')->GetAllEtudiant();
+if(count($allAdherents)==0)
+$adherent=array();
 			foreach($allAdherents as $i => $adh)
 			{
 				//On récupère les paiements et les produits de cet adherent
@@ -295,6 +307,15 @@ class GestionMembreController extends Controller
     {
 		$em = $this->getDoctrine()->getManager();
 		$etudiant = new Etudiant();
+		//Les bizuths sont au PC ;)
+		$etudiant->setDepartement('PC');
+
+		//En théorie ils sont dans l'année de leurs 18 ans
+		$anneeCourante = getdate();
+		$anneeMaj = $anneeCourante['year']-18;
+
+		$etudiant->setBirthday(new DateTime($anneeMaj."-01-24"));		
+
 		$form = $this->createForm(new EtudiantType(), $etudiant);
 
 		if($request->isMethod('POST'))
@@ -306,7 +327,7 @@ class GestionMembreController extends Controller
 				$em->persist($etudiant);
 				$em->flush();
 				$this->get('session')->getFlashBag()->add('notice', 'Bizuth WEI ajoute');
-				return $this->redirect('paiement?id=' . $etudiant->getId());		}
+				return $this->redirect('paiement?id=' . $etudiant->getId().'&from=wei');		}
 		}
 
 		return $this->render('CvaGestionMembreBundle::ajoutBizuthWei.html.twig', array('form' => $form->createView(),));
@@ -423,11 +444,11 @@ class GestionMembreController extends Controller
 			$form->bind($request);
 			if ($form->isValid()) 
 			{
-				// $factory = $this->get('security.encoder_factory');
+				 $factory = $this->get('security.encoder_factory');
 						
-				// $encoder = $factory->getEncoder($user);
-				// $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
-				// $user->setPassword($password);
+				 $encoder = $factory->getEncoder($user);
+				 $password = $encoder->encodePassword($user->getPassword(), $user->getSalt());
+				 $user->setPassword($password);
 			
 				$em->persist($user);
 				$em->flush();

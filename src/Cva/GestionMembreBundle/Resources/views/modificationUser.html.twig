@@ -20,8 +20,14 @@
 
 					    <div class="span3">
 						    {{ form_row(form.username, {'label': 'Nom :', 'read_only' : 'true' } ) }}
-					    </div>					   
-						{{ form_widget(form.password, {'label': 'Mot de Passe :', 'attr' : { 'style':'display:none;width:0px' }} ) }}					    
+					    </div>
+						{%if is_granted('ROLE_SUPER_ADMIN') %}	
+						<div class="span3">				   
+						{{ form_row(form.password, {'label': 'Mot de Passe :'} ) }}
+						</div>	
+						{% else %}
+{{ form_widget(form.password, {'label': 'Mot de Passe :', 'attr' : { 'style':'display:none;width:0px' }} ) }}	
+{% endif %}			    
 					    <div class="span3">
 					    	{{ form_row(form.roles, {'label': 'Roles :' } ) }}
 					    </div>

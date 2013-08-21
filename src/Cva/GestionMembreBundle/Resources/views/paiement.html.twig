@@ -44,7 +44,7 @@
 										  </div>
 										  <div class="modal-footer">
 												<button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
-												<a role="button" href="{{path('cva_gestion_membre_deletePaiement')}}?idPaiement={{ paiement.id }}&idProduit={{prod.id}}" class="btn btn-primary">Oui</a>
+												<a role="button" href="{{path('cva_gestion_membre_deletePaiement')}}?idPaiement={{ paiement.id }}&idProduit={{prod.id}}&idEtu={{paiement.idEtudiant.id}}" class="btn btn-primary">Oui</a>
 										  </div>
 								</div>
 							{% endfor %}								

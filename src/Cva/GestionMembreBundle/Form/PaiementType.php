@@ -23,7 +23,7 @@ class PaiementType extends AbstractType
 		$formProd[$prod->getDescription()] = $prod->getDescription() . ' - ' . $prod->getPrice() . ' €';
 	}
 
-	$builder->add('Produits', 'choice', array('choices' => $formProd, 'required'  => false, 'expanded' => true,'mapped' => false, 'multiple' => true ));
+	$builder->add('Produits', 'choice', array('choices' => $formProd, 'required'  => true, 'expanded' => true,'mapped' => false, 'multiple' => true ));
 	$builder->add('moyenPaiement', 'choice', array('choices' => array('Cheque' => '1. Cheque', 'CB' => '2. Carte Bancaire', 'Especes' => '3. Espèces' ),'mapped' => true, 'required'  => true, 'expanded' => true ));
     }
 
