@@ -34,7 +34,7 @@ function createCSV(obj){
 		x++;
 	}
 	document.getElementById("csvText").value=csvText;
-	document.forms[0].submit();
+	document.forms["formCSV"].submit();
 }
 
 
