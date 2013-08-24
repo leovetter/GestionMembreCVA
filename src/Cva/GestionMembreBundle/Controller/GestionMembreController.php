@@ -3,6 +3,7 @@
 namespace Cva\GestionMembreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
 use Cva\GestionMembreBundle\Form\EtudiantType;
 use Cva\GestionMembreBundle\Form\resetPasswordType;
@@ -27,11 +28,20 @@ class GestionMembreController extends Controller
 		return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
 	}
 
+	public function exportCSVAction(Request $request)
+	{
+		$response = new Response();
+		$response->setContent($request->request->get('csvText'));
+		$response->headers->set('Content-Type','application/force-download');
+		$response->headers->set('Content-disposition','filename="export.csv"');
+		
+		return $response;
+	}
+
 	public function profilAction(Request $request)
     	{
 		$user = $this->get('security.context')->getToken()->getUser();
 		$form = $this->createForm(new resetPasswordType());
-
 		if($request->isMethod('POST'))
 		{
 			$form->bind($request);
@@ -48,7 +58,7 @@ class GestionMembreController extends Controller
 					$user->setUsername($form->get('username')->getData());
 					$em->persist($user);
 					$em->flush();
-					$this->get('session')->getFlashBag()->add('notice', 'Profil modifié');
+					$this->get('session')->getFlashBag()->add('notice', 'Profil modifie');
 				}
 				else if($oldPassword == $user->getPassword())
 				{
@@ -57,7 +67,7 @@ class GestionMembreController extends Controller
 					$user->setPassword($newPassword);
 					$em->persist($user);
 					$em->flush();
-					$this->get('session')->getFlashBag()->add('notice', 'Profil modifié');
+					$this->get('session')->getFlashBag()->add('notice', 'Profil modifie');
 				}
 				else if ($oldPassword !== $user->getPassword())
 				{

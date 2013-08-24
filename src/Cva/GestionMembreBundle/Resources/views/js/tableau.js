@@ -8,6 +8,36 @@ function voir(idEtu) {
 	});
 }
 
+function createCSV(obj){
+	var tab=document.getElementById(obj);
+	var TabLignes=tab.getElementsByTagName('tr');
+	var csvText="";
+	var ArrLine=new Array();
+
+	//Les en-têtes
+	TabHead=TabLignes[0].getElementsByTagName('th');
+	for(var z=0; z<TabHead.length-1;z++){
+		ArrLine.push(TabHead[z].innerHTML);
+	}
+	csvText+=ArrLine.join(';')+'\n';
+
+	//Les lignes avec le contenu
+	var x=1;
+	while(TabLignes[x]){
+		TabCol=TabLignes[x].getElementsByTagName('td');
+		ArrLine = new Array();		
+		for(var y=0;y<(TabCol.length-1);y++){
+			
+			ArrLine.push(TabCol[y].innerHTML);
+		}
+		csvText+=ArrLine.join(';')+'\n';
+		x++;
+	}
+	document.getElementById("csvText").value=csvText;
+	document.forms[0].submit();
+}
+
+
 function fillDataTable() {	
 				var TableAssemblees = $('#table_adherent').dataTable({
 					"oLanguage": {

@@ -17,18 +17,10 @@
 					<table class="table table-bordered table-hover table-striped" id="table_adherent">
 					  <thead>
  						<tr id="search">
-							<th>
-								Nom
-							</th>
-							<th>
-								Prénom
-							</th>
-							<th>
-								Bus
-							</th>
-							<th>
-								Bungalow
-							</th>
+							<th>Nom</th>
+							<th>Prénom</th>
+							<th>Bus</th>
+							<th>Bungalow</th>
 							<th class="hidden">
 								Produits
 							</th>
@@ -80,7 +72,12 @@
 					</table>
 				</div>
 			</div>
+			<p> <button class="btn btn-medium btn-info" onclick="createCSV('table_adherent')"> Export CSV </button>
 		</div>
+
+		<form action="{{path('cva_gestion_membre_exportCSV')}}" method="post">
+		<input type="hidden" name="csvText" id="csvText"/>
+		</form>
 		
 		{% endblock %}
 		       {% block javascripts %}
