@@ -40,6 +40,7 @@
 						{% endfor %}
 					  </tbody>
 					</table>
+				<div align="right"><button class="btn btn-medium btn-info" onclick="createCSV('table_adherent')"> Export CSV </button></div>
 				</div>
 					
 				<div class="span3">	
@@ -73,7 +74,7 @@
 
 				</div>
 			</div>
-			<p> <button class="btn btn-medium btn-info" onclick="createCSV('table_adherent')"> Export CSV </button>
+			
 		</div>
 
 		<form action="{{path('cva_gestion_membre_exportCSV')}}" method="post">
