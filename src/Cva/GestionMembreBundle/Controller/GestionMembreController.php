@@ -580,4 +580,41 @@ $adherent=array();
 		  'error'         => $error,
 		));
 	  }
+
+	public function statsAction()
+	{
+		//Ventes Mois
+		//$ventesMois = count($this->get('cva_gestion_membre')->VentesMoisCourant());	
+		//die(var_dump($ventesMois));	
+		
+		//Stats par produits
+		$prods = $this->get('cva_gestion_membre')->GetAllProduitDispo();
+		$ventesProds = array();
+		$ventesAnnee = array();
+
+		foreach($prods as $prod)
+		{
+			$desc = $prod->getDescription();
+			$ventes = count($this->get('cva_gestion_membre')->GetEtudiantByProduit($prod->getId()));
+			$venteProds[]=array('desc' => $desc,'vendus' => $ventes);
+		}
+
+		//Stats par années
+		$annees = array(1,2,3,4,5,'3CYCLE','Personnel','Autre');
+		foreach($annees as $annee)
+		{
+			$ventes = count($this->get('cva_gestion_membre')->GetEtudiantByAnnee($annee));
+			$venteAnnee[]=array('annee' => $annee,'vendus' => $ventes);
+		}
+
+		//Stats par depart
+		$departs = array('PC','GEN','GCU','GI','GMC','GMD','GMPP','GE','IF','TC','BB','BIM','SGM');
+		foreach($departs as $depart)
+		{
+			$ventes = count($this->get('cva_gestion_membre')->GetEtudiantByDepartement($depart));
+			$venteDepart[]=array('depart' => $depart,'vendus' => $ventes);
+		}
+		//die(var_dump($venteDepart));
+		return $this->render('CvaGestionMembreBundle::stats.html.twig',array('venteProds' => $venteProds, 'venteAnnee' => $venteAnnee, 'venteDepart' => $venteDepart));
+	}
 }

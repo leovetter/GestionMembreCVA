@@ -1,0 +1,90 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+	{% block title %} Statistiques {% endblock %}
+
+	{% block navbar %}
+		{{ navbar.input('','','','active') }}
+	{% endblock %}
+	
+	{% block content %}
+	
+		<div class = container>
+			<div class="row">
+				<div class="span4">
+					<table class="table table-bordered">
+					  <thead>
+ 						<tr>
+							<th>
+								Produit
+							</th>
+							<th>
+								Vendus
+							</th>
+						</tr> 
+					  </thead>					  
+					  <tbody>
+					  	{% for prod in venteProds %}
+						<tr>
+							<td>{{ prod['desc']}}</td>
+							<td>{{ prod['vendus']}}</td>
+						</tr>
+						{% endfor %}							
+					  </tbody>
+					</table>
+				</div>
+
+				<div class="span4">
+					<table class="table table-bordered">
+					  <thead>
+ 						<tr>
+							<th>
+								Année
+							</th>
+							<th>
+								Adhésions VA
+							</th>
+						</tr> 
+					  </thead>					  
+					  <tbody>
+					  	{% for vente in venteAnnee %}
+						<tr>
+							<td>{{ vente['annee']}}</td>
+							<td>{{ vente['vendus']}}</td>
+						</tr>
+						{% endfor %}							
+					  </tbody>
+					</table>
+				</div>
+
+				<div class="span4">
+					<table class="table table-bordered">
+					  <thead>
+ 						<tr>
+							<th>
+								Département
+							</th>
+							<th>
+								Adhésions VA
+							</th>
+						</tr> 
+					  </thead>					  
+					  <tbody>
+					  	{% for vente in venteDepart %}
+						<tr>
+							<td>{{ vente['depart']}}</td>
+							<td>{{ vente['vendus']}}</td>
+						</tr>
+						{% endfor %}
+							
+					  </tbody>
+					</table>
+				</div>
+			
+				
+			</div>
+		</div>
+		
+{% endblock %}
+		

@@ -5,6 +5,9 @@ namespace Cva\GestionMembreBundle\Service;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cva\GestionMembreBundle\Form\EtudiantType;
 use Cva\GestionMembreBundle\Entity\Etudiant;
+use Cva\GestionMembreBundle\Entity\Paiement;
+use \DateTime;
+
 
 class ServiceMembre {
 
@@ -61,6 +64,16 @@ class ServiceMembre {
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
 		return $repository->findOneById($id);
 	}
+
+	public function GetEtudiantByAnnee($annee) {	
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
+		return $repository->findByAnnee($annee);
+	}
+
+	public function GetEtudiantByDepartement($depart) {	
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
+		return $repository->findByDepartement($depart);
+	}
 		
 	public function GetUserById($id) {	
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:User');
@@ -75,6 +88,22 @@ class ServiceMembre {
 	public function GetPaiementById($id) {	
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Paiement');
 		return $repository->findOneById($id);
+	}
+	
+	public function VentesMoisCourant()
+	{
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Paiement');
+		$today = getdate();
+		$debutMois = $today['year'].'-0'.$today['mon'].'-01';
+		$where = 'p.dateAchat BETWEEN '.$debutMois.' AND '.$today['year'].'-0'.$today['mon'].'-'.$today['mday'];
+
+		$query=$repository->createQueryBuilder('p')
+			->where($where)
+			->getQuery();
+
+		
+		$result = $query->getResult();
+		die(var_dump($result));
 	}
 
 	public function GetEtudiantByProduit($idProd, $annee = null)
@@ -123,12 +152,6 @@ class ServiceMembre {
 			}
 		}
 		return false;
-	}
-	
-	public function GetEtudiantByAnnee($annee)
-	{
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
-		return $repository->findByAnnee($annee);	
 	}
 	
 	public function GetDetailsByIdEtudiant($idEtudiant)
