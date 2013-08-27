@@ -594,9 +594,9 @@ $adherent=array();
 
 		foreach($prods as $prod)
 		{
-			$desc = $prod->getDescription();
 			$ventes = count($this->get('cva_gestion_membre')->GetEtudiantByProduit($prod->getId()));
-			$venteProds[]=array('desc' => $desc,'vendus' => $ventes);
+			$magot = $prod->getPrice()*$ventes;
+			$venteProds[]=array('prod' => $prod,'vendus' => $ventes,'magot' => $magot);
 		}
 
 		//Stats par années

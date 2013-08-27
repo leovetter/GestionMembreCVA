@@ -16,19 +16,17 @@
 					<table class="table table-bordered">
 					  <thead>
  						<tr>
-							<th>
-								Produit
-							</th>
-							<th>
-								Vendus
-							</th>
+							<th>Produit</th>
+							<th>Vendus</th>
+							<th>Magot</th>
 						</tr> 
 					  </thead>					  
 					  <tbody>
 					  	{% for prod in venteProds %}
 						<tr>
-							<td>{{ prod['desc']}}</td>
+							<td>{{ prod['prod'].description}}</td>
 							<td>{{ prod['vendus']}}</td>
+							<td>{{ prod['magot']}}€</td>						
 						</tr>
 						{% endfor %}							
 					  </tbody>
