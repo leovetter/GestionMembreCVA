@@ -21,15 +21,13 @@
 							<th>Prénom</th>
 							<th>Bus</th>
 							<th>Bungalow</th>
-							<th class="hidden">
-								Produits
-							</th>
+							<th class="hidden">Produits</th>
 						</tr> 
 					  </thead>					  
 					  <tbody id="etudiants">			  
 
 						{% for adh in adherent %}
-								<tr id="{{ adh.bizuth.id }}" numEtu="{{ adh.bizuth.numEtudiant}}" onclick="return voir({{ adh.bizuth.id }});">
+								<tr id="{{ adh.bizuth.id }}" onclick="return voir({{ adh.bizuth.id }});">
 									  <td>{{ adh.bizuth.name}}</td>
 									  <td>{{ adh.bizuth.firstName }}</td>
 									  <td>{{ adh.bus }}</td>

@@ -169,19 +169,7 @@ return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
 		$paiement = new Paiement();
 		$paiementType = new PaiementType($produits);
 		$form = $this->createForm($paiementType, $paiement);
-		
-		/*if($request->isMethod('POST'))
-		{
-			$form->bind($request);
-			if ($form->isValid()) 
-			{
-				$em->persist($paiement);
-				$em->flush();
-				$this->get('session')->getFlashBag()->add('notice', 'Paiement modifiÃ©');
-				return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
-			}
-		}*/
-		
+				
 		return $this->render('CvaGestionMembreBundle::paiement.html.twig', array('form' => $form->createView(), 'id' => $request->query->get('id'), 'paiementsEtud' => $paiementsEtud));
     }
 	
@@ -281,31 +269,25 @@ return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
     {
 
 			$allAdherents = $this->get('cva_gestion_membre')->GetAllEtudiant();
-if(count($allAdherents)==0)
-$adherent=array();
-			foreach($allAdherents as $i => $adh)
+
+			if(count($allAdherents)==0) {
+				$adherent=array();
+			}
+
+			foreach($allAdherents as &$adh)
 			{
+				$allproducts=array();
 				//On récupère les paiements et les produits de cet adherent
 				$paiements = $this->get('cva_gestion_membre')->GetPaiementEtudiant($adh->getId());
-				if ($paiements)
+				if (count($paiements)<>0)
 				{
-					foreach ($paiements as $paiement)
+					foreach ($paiements as &$paie)
 					{
-						foreach ($paiement->getProduits() as $prod)
-						{
-							$produits[] = $prod;
-						}
+						$allproducts[]=$paie->getProduits();
 					}
 				}
-				else
-				{
-					
-					$produits = array();
-					
-				}
-
-				$adherent[$i]['etudiant'] = $adh;
-				$adherent[$i]['produit'] = $produits;
+				$adherent[]=array("bizuth" => $adh,"prods" => $allproducts);
+				//die(var_dump($adherent));
 			}
 	
 		
@@ -345,12 +327,7 @@ $adherent=array();
 	
 	public function rechercheBizuthWEIAction(Request $request)
     {
-			
-		if ($request->query->get('prod')==null)
-		{
-			$adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails();
-		}
-
+		$adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails();
 
 		return $this->render('CvaGestionMembreBundle::rechercheBizuthWEI.html.twig', array('adherent' => $adherent) );
     }
@@ -584,8 +561,8 @@ $adherent=array();
 	public function statsAction()
 	{
 		//Ventes Mois
-		//$ventesMois = count($this->get('cva_gestion_membre')->VentesMoisCourant());	
-		//die(var_dump($ventesMois));	
+		$ventesMois = count($this->get('cva_gestion_membre')->VentesMoisCourant());
+		$message = ($ventesMois<50? "C'est la loose Michel !":( $ventesMois<300? "Honnete." : ($ventesMois< 800? "Pas mal du tout !" : "Nickel, on va pouvoir combler le trou des 24 !")));
 		
 		//Stats par produits
 		$prods = $this->get('cva_gestion_membre')->GetAllProduitDispo();
@@ -614,7 +591,6 @@ $adherent=array();
 			$ventes = count($this->get('cva_gestion_membre')->GetEtudiantByDepartement($depart));
 			$venteDepart[]=array('depart' => $depart,'vendus' => $ventes);
 		}
-		//die(var_dump($venteDepart));
-		return $this->render('CvaGestionMembreBundle::stats.html.twig',array('venteProds' => $venteProds, 'venteAnnee' => $venteAnnee, 'venteDepart' => $venteDepart));
+		return $this->render('CvaGestionMembreBundle::stats.html.twig',array('venteProds' => $venteProds, 'venteAnnee' => $venteAnnee, 'venteDepart' => $venteDepart, 'ventesMois' => $ventesMois, 'message' => $message));
 	}
 }

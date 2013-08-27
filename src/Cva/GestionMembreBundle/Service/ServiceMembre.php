@@ -44,22 +44,6 @@ class ServiceMembre {
 		return $repository->findBy(array('idEtudiant' => $idEtudiant));
 	}
 	
-	
-	public function GetEtudiant($name = "",$firstName = "",$numEtudiant = "",$mail = "", $idDebut = 0, $limiteScale = 15) {	
-		//$repository = $this->getDoctrine()->getEntityManager();
-		$recherche=array();
-
-		return $this->em
-			->createQuery('SELECT e FROM CvaGestionMembreBundle:Etudiant e WHERE e.name LIKE :name AND e.firstName LIKE :firstName AND e.numEtudiant LIKE :numEtudiant AND e.mail LIKE :mail AND e.id > :idDebut')
-			->setParameter('name', $name.'%')
-			->setParameter('firstName', $firstName.'%')
-			->setParameter('numEtudiant', $numEtudiant.'%')
-			->setParameter('mail', $mail.'%')
-			->setParameter('idDebut', $idDebut)
-			->setMaxResults($limiteScale)
-			->getResult();
-	}
-	
 	public function GetEtudiantById($id) {	
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
 		return $repository->findOneById($id);
@@ -94,16 +78,18 @@ class ServiceMembre {
 	{
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Paiement');
 		$today = getdate();
+		$todayOk = $today['year'].'-0'.$today['mon'].'-'.$today['mday'];
 		$debutMois = $today['year'].'-0'.$today['mon'].'-01';
-		$where = 'p.dateAchat BETWEEN '.$debutMois.' AND '.$today['year'].'-0'.$today['mon'].'-'.$today['mday'];
 
-		$query=$repository->createQueryBuilder('p')
-			->where($where)
+		$qb=$repository->createQueryBuilder('p');
+		$query = $qb	->where('p.dateAchat BETWEEN :debut AND :auj')
+			->setParameter('debut', $debutMois)
+			->setParameter('auj', $todayOk)	
 			->getQuery();
-
 		
 		$result = $query->getResult();
-		die(var_dump($result));
+
+		return $result;
 	}
 
 	public function GetEtudiantByProduit($idProd, $annee = null)
@@ -115,13 +101,6 @@ class ServiceMembre {
 			->setParameter('idProd', $idProd)
 			->getQuery();
 		$paiements = $query->getResult();
-		
-		
-		
-		// $em = $this->getDoctrine()->getManager();
-		// $query = $em->createQuery('SELECT p.idEtudiant FROM Cva\GestionMembreBundle\Entity\Paiement p WHERE :idProd MEMBER OF p.produits');
-		// $query->setParameter('idProd', $idProd);
-		// $ids = $query->getResult();
 		
 		//On recupere les etudiants associés
 		$etudiant=array();
@@ -162,14 +141,7 @@ class ServiceMembre {
 	
 	public function GetBizuthWEIAvecDetails($prod = null)
 	{
-		if ($prod==null)
-		{
-			$bizuths = $this->GetEtudiantByAnnee(1);
-		}
-		else
-		{
-			$bizuths = $this->GetEtudiantByProduit($prod,1);
-		}
+		$bizuths = $this->GetEtudiantByAnnee(1);
 		$details=array();
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:DetailsWEI');
 		

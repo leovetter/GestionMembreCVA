@@ -5,7 +5,7 @@
 	{% block title %} Statistiques {% endblock %}
 
 	{% block navbar %}
-		{{ navbar.input('','','','active') }}
+		{{ navbar.input('','','','','active') }}
 	{% endblock %}
 	
 	{% block content %}
@@ -54,6 +54,7 @@
 						{% endfor %}							
 					  </tbody>
 					</table>
+				<div class="well">{{ ventesMois }} adhesions depuis le début du mois.<br />{{ message}}</div>
 				</div>
 
 				<div class="span4">

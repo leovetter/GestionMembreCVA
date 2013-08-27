@@ -22,19 +22,17 @@
 							<th>Nom</th>
 							<th>Prénom</th>
 							<th>Email</th>
-							<th class="hidden">
-								Produits
-							</th>
+							<th class="hidden">Produits</th>
 						</tr> 
 					  </thead>					  
 					  <tbody id="etudiants">	
 						{% for adh in adherent %}
-								<tr id="{{ adh['etudiant'].id }}" numEtu="{{ adh['etudiant'].numEtudiant}}" onclick="return voir({{ adh['etudiant'].id }});">
-									  <td>{{ adh['etudiant'].numEtudiant}}</td>
-									  <td>{{ adh['etudiant'].name }}</td>
-									  <td>{{ adh['etudiant'].firstName}}</td>
-									  <td>{{ adh['etudiant'].mail }}</td>
-									  <td class="hidden">{% for prod in adh['produit'] %} {{ prod.description }} {% endfor %} </td>
+								<tr id="{{ adh.bizuth.id }}" onclick="return voir({{ adh.bizuth.id }});">
+									  <td>{{ adh.bizuth.numEtudiant}}</td>
+									  <td>{{ adh.bizuth.name }}</td>
+									  <td>{{ adh.bizuth.firstName}}</td>
+									  <td>{{ adh.bizuth.mail }}</td>
+									  <td class="hidden">{% for paiement in adh.prods %} {% for prod in paiement %}{{ prod.description }} {% endfor %} {% endfor %} </td>
 
 								</tr>	
 						{% endfor %}

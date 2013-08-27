@@ -49,7 +49,7 @@ cva_gestion_membre_addUser:
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:addUser }
 
 cva_gestion_membre_stats:
-    pattern:  /admin/stats
+    pattern:  /stats
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:stats }
 
 cva_gestion_membre_modifUser:
