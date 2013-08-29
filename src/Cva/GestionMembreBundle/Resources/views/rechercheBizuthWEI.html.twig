@@ -21,6 +21,7 @@
 							<th>Prénom</th>
 							<th>Bus</th>
 							<th>Bungalow</th>
+							<th class="hidden">Remarque</th>
 							<th class="hidden">Produits</th>
 						</tr> 
 					  </thead>					  
@@ -32,6 +33,7 @@
 									  <td>{{ adh.bizuth.firstName }}</td>
 									  <td>{{ adh.bus }}</td>
 									  <td>{{ adh.bung }}</td>
+									<td class="hidden"> {{ adh.bizuth.remarque }} </td>
 									<td class="hidden">{% for paiement in adh.prods %} {% for prod in paiement %}{{ prod.description }} {% endfor %} {% endfor %} </td>
 								</tr>	
 						{% endfor %}	

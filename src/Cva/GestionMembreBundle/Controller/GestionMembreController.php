@@ -92,6 +92,7 @@ class GestionMembreController extends Controller
     	{
 		$em = $this->getDoctrine()->getManager();
 		$etudiant = new Etudiant();
+		$etudiant->setDepartement('PC');
 		$form = $this->createForm(new EtudiantType(), $etudiant);
 
 		if($request->isMethod('POST'))
@@ -561,14 +562,12 @@ return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
 	public function statsAction()
 	{
 		//Ventes Mois
-		$ventesMois = count($this->get('cva_gestion_membre')->VentesMoisCourant());
+		$ventesMois = $this->get('cva_gestion_membre')->VentesMoisCourant();
 		$message = ($ventesMois<50? "C'est la loose Michel !":( $ventesMois<300? "Honnete." : ($ventesMois< 800? "Pas mal du tout !" : "Nickel, on va pouvoir combler le trou des 24 !")));
 		
 		//Stats par produits
 		$prods = $this->get('cva_gestion_membre')->GetAllProduitDispo();
 		$ventesProds = array();
-		$ventesAnnee = array();
-
 		foreach($prods as $prod)
 		{
 			$ventes = count($this->get('cva_gestion_membre')->GetEtudiantByProduit($prod->getId()));
@@ -576,21 +575,34 @@ return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
 			$venteProds[]=array('prod' => $prod,'vendus' => $ventes,'magot' => $magot);
 		}
 
-		//Stats par années
+		$VAs=$this->get('cva_gestion_membre')->GetProduitsLikeDesc('VA2013%');
+
+		//Stats par années		
+		$venteAnnee = array();
 		$annees = array(1,2,3,4,5,'3CYCLE','Personnel','Autre');
-		foreach($annees as $annee)
+		foreach($annees as &$annee)
 		{
-			$ventes = count($this->get('cva_gestion_membre')->GetEtudiantByAnnee($annee));
-			$venteAnnee[]=array('annee' => $annee,'vendus' => $ventes);
+			$venteAnnee[$annee]=0;
 		}
 
 		//Stats par depart
+		$venteDepart = array();
 		$departs = array('PC','GEN','GCU','GI','GMC','GMD','GMPP','GE','IF','TC','BB','BIM','SGM');
-		foreach($departs as $depart)
+		foreach($departs as &$depart)
 		{
-			$ventes = count($this->get('cva_gestion_membre')->GetEtudiantByDepartement($depart));
-			$venteDepart[]=array('depart' => $depart,'vendus' => $ventes);
+			$venteDepart[$depart]=0;
 		}
+		
+		foreach($VAs as &$VA)
+		{
+			$adherents=$this->get('cva_gestion_membre')->GetEtudiantByProduit($VA->getId());
+			foreach($adherents as &$bizuth)
+			{
+				$venteAnnee[$bizuth->getAnnee()]++;
+				$venteDepart[$bizuth->getDepartement()]++;
+			}		
+		}
+
 		return $this->render('CvaGestionMembreBundle::stats.html.twig',array('venteProds' => $venteProds, 'venteAnnee' => $venteAnnee, 'venteDepart' => $venteDepart, 'ventesMois' => $ventesMois, 'message' => $message));
 	}
 }

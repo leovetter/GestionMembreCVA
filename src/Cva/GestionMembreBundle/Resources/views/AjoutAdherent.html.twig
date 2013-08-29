@@ -31,7 +31,8 @@
 					{{ form_row(form.civilite) }}
 				</div>
 				<div class="span2">
-					{{ form_row(form.annee, {'label': 'Annee :', 'attr' : { 'style':'width:80px' }} ) }}
+					{{ form_row(form.annee, {'label': 'Annee :', 'attr' : { 'style':'width:80px','onchange': 
+"disableDeparts(this.value);" }} ) }}
 					{{ form_row(form.departement, {'label': 'Departement :', 'attr' : { 'style':'width:80px' }} ) }}
 				</div>
 
@@ -48,6 +49,7 @@
 
 				<div class="span3">
 					{{ form_row(form.mail, {'label': 'Mail :', 'attr' : { 'placeholder' : 'Mail' }} ) }}
+					<button class="btn btn-mini" type="button" onclick="mailINSA();"> Mail INSA </button>
 				</div>
 
 				<div class="span3">
@@ -70,4 +72,11 @@
 </fieldset>
 
 </div>
+{% endblock %}
+
+ {% block javascripts %}
+			{% javascripts
+				'@CvaGestionMembreBundle/Resources/views/js/ajout.js'  %}				
+				<script type="text/javascript" src="{{ asset_url }}"></script>
+			{% endjavascripts %}
 {% endblock %}

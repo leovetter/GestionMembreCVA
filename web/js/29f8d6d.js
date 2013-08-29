@@ -1,5 +1,25 @@
 fillDataTable();
 
+$(function() {
+	var 	$tableDetails = $("#details_droite"),
+		$window = $(window),
+		offset = $tableDetails.offset(),
+		topPadding = 15;
+
+	$window.scroll(function() {
+		if ($window.scrollTop() > offset.top) {
+			$tableDetails.stop().animate({
+				marginTop: $window.scrollTop() - offset.top + topPadding
+			});
+		} else {
+			$tableDetails.stop().animate({
+				marginTop: 0
+			});
+		}
+	});
+
+});
+
 function voir(idEtu) {
 
 	$.get("voirDetails?idEtu=" + idEtu,

@@ -76,9 +76,12 @@ class ServiceMembre {
 	
 	public function VentesMoisCourant()
 	{
+
+		$VAs=$this->GetProduitsLikeDesc('VA2013%');
+
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Paiement');
 		$today = getdate();
-		$todayOk = $today['year'].'-0'.$today['mon'].'-'.$today['mday'];
+		$todayOk = $today['year'].'-0'.$today['mon'].'-'.$today['mday'].' '.$today['hours'].':'.$today['minutes'].':'.$today['seconds'];
 		$debutMois = $today['year'].'-0'.$today['mon'].'-01';
 
 		$qb=$repository->createQueryBuilder('p');
@@ -87,12 +90,24 @@ class ServiceMembre {
 			->setParameter('auj', $todayOk)	
 			->getQuery();
 		
-		$result = $query->getResult();
+		$paiements = $query->getResult();
 
-		return $result;
+		$total=0;
+		foreach($paiements as &$paiement)
+		{	
+			foreach($VAs as &$VA)
+			{
+				if(in_array($VA,$paiement->getProduits()->toArray()))
+				{	
+					$total++;
+				}
+			}		
+		}
+
+		return $total;
 	}
 
-	public function GetEtudiantByProduit($idProd, $annee = null)
+	public function GetEtudiantByProduit($idProd)
 	{
 		//On recupere les paiements des Etudiant ayant achete ce produit
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Paiement');
@@ -107,14 +122,7 @@ class ServiceMembre {
 
 		foreach ($paiements as &$id) {
 			$etud=$this->GetEtudiantById($id->getIdEtudiant());
-			if($annee==null)
-			{
-				$etudiant[]=$etud;
-			}
-			elseif($etud->getAnnee()==$annee)
-			{
-				$etudiant[]=$etud;
-			}
+			$etudiant[]=$etud;
 		}
 		return $etudiant;
 	
@@ -137,6 +145,18 @@ class ServiceMembre {
 	{
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:DetailsWEI');
 		return $repository->findOneBy(array('idEtudiant' => $idEtudiant));
+	}
+
+	public function GetProduitsLikeDesc($desc)
+	{
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Produit');
+		$query = $repository->createQueryBuilder('p') 
+			->where('p.description LIKE :desc')
+			->setParameter('desc', $desc)
+			->getQuery();
+		$produits = $query->getResult();
+		
+		return $produits;
 	}
 	
 	public function GetBizuthWEIAvecDetails($prod = null)
