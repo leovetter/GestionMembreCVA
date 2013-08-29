@@ -28,7 +28,7 @@ function voir(idEtu) {
 	});
 }
 
-function createCSV(obj){
+function createCSV(obj,colUseless){
 	var tab=document.getElementById(obj);
 	var TabLignes=tab.getElementsByTagName('tr');
 	var csvText="";
@@ -36,7 +36,7 @@ function createCSV(obj){
 
 	//Les en-têtes
 	TabHead=TabLignes[0].getElementsByTagName('th');
-	for(var z=0; z<TabHead.length-1;z++){
+	for(var z=0; z<TabHead.length-colUseless;z++){
 		ArrLine.push(TabHead[z].innerHTML);
 	}
 	csvText+=ArrLine.join(';')+'\n';
@@ -46,7 +46,7 @@ function createCSV(obj){
 	while(TabLignes[x]){
 		TabCol=TabLignes[x].getElementsByTagName('td');
 		ArrLine = new Array();		
-		for(var y=0;y<(TabCol.length-1);y++){
+		for(var y=0;y<(TabCol.length-colUseless);y++){
 			
 			ArrLine.push(TabCol[y].innerHTML);
 		}
