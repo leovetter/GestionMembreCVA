@@ -159,14 +159,21 @@ class ServiceMembre {
 		return $produits;
 	}
 	
-	public function GetBizuthWEIAvecDetails($prod = null)
+	public function GetBizuthWEIAvecDetails()
 	{
 		$bizuths = $this->GetEtudiantByAnnee(1);
 		$details=array();
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:DetailsWEI');
+
+		$dateWEI = new DateTime('2013-09-20');
 		
 		foreach ($bizuths as &$biz)
 		{
+			//Test majeur/mineur
+			$anniv = $biz->getBirthday();
+			$inter = $anniv->diff($dateWEI);
+			$age = $inter->format('%y');			
+			
 			//On récupère le bus et le bung du bizuth
 			$bus="";
 			$bungalow="";
@@ -190,7 +197,7 @@ class ServiceMembre {
 			}
 			
 			//On met tout dans le tableau
-			$details[]=array("bizuth" => $biz,"bus" => $bus, "bung" => $bungalow, "prods" => $allproducts);
+			$details[]=array("bizuth" => $biz,"bus" => $bus, "bung" => $bungalow, "prods" => $allproducts, "majeur" => ($age>=18?"Majeur":"Mineur"));
 		}
 		return $details;
 	}

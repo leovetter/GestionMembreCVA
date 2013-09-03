@@ -76,6 +76,7 @@
 {% endblock %}
 
  {% block javascripts %}
+{{ parent() }}
 			{% javascripts
 				'@CvaGestionMembreBundle/Resources/views/js/ajout.js'  %}				
 				<script type="text/javascript" src="{{ asset_url }}"></script>

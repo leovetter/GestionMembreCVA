@@ -300,6 +300,7 @@ return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
     {
 		$em = $this->getDoctrine()->getManager();
 		$etudiant = new Etudiant();
+
 		//Les bizuths sont au PC ;)
 		$etudiant->setDepartement('PC');
 

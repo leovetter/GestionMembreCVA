@@ -21,6 +21,8 @@
 							<th>Prénom</th>
 							<th>Bus</th>
 							<th>Bungalow</th>
+							<th class="hidden">Majeur ?</th>
+							<th >Majeur ?</th>
 							<th class="hidden">Remarque</th>
 							<th class="hidden">Produits</th>
 						</tr> 
@@ -33,6 +35,8 @@
 									  <td>{{ adh.bizuth.firstName }}</td>
 									  <td>{{ adh.bus }}</td>
 									  <td>{{ adh.bung }}</td>
+									<td class="hidden"> {{ adh.majeur }} </td>
+									<td style="text-align:center;">{% if adh.majeur == 'Mineur' %}<img src={{ asset('img/18.jpg') }} height="20" width="20"> {% endif %}</td>
 									<td class="hidden"> {{ adh.bizuth.remarque }} </td>
 									<td class="hidden">{% for paiement in adh.prods %} {% for prod in paiement %}{{ prod.description }} {% endfor %} {% endfor %} </td>
 								</tr>	
@@ -40,7 +44,7 @@
 
 					  </tbody>
 					</table>
-<div align="right"><button class="btn btn-medium btn-info" onclick="createCSV('table_adherent',2)"> Export CSV </button></div>
+<div align="right"><button class="btn btn-medium btn-info" onclick="createCSV('table_adherent',3)"> Export CSV </button></div>
 				</div>
 						
 				<div class="span3">		
