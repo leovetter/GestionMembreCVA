@@ -7,9 +7,7 @@
 			  <p><span class="label label-info">Email</span><br />{{ etu.mail }}</p>
 			  <p><span class="label label-info">Civilité</span><br />{{ etu.civilite }}</p>
 			  <p><span class="label label-info">Naissance</span><br />{{ etu.birthday|date('d-m-Y') }}</p>
-			  {% if is_granted('ROLE_COWEI') %}
 			  <p><span class="label label-info">Remarque</span><br />{{ etu.remarque }}</p>
-			  {% endif %}
 			<p><span class="label label-info">Produits</span><br />
 			  	{% for prod in produits %}
 			  		<li>{{ prod.description }}</li>
