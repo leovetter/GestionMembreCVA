@@ -1,8 +1,10 @@
 disableDeparts(document.getElementById('etudiant_annee').value);
 
 function mailINSA(){
-	var nom=document.getElementById('etudiant_name').value;
-	var prenom=document.getElementById('etudiant_firstName').value;
+	var nom=document.getElementById('etudiant_name').value.split(' ').join('-');
+	alert(nom);	
+	
+	var prenom=document.getElementById('etudiant_firstName').value.split(' ').join('-');
 
 	document.getElementById('etudiant_mail').value=prenom.toLowerCase()+'.'+nom.toLowerCase()+'@insa-lyon.fr';
 }
@@ -33,3 +35,8 @@ function disableDeparts(annee){
 		}
 	}
 }
+
+$(document).ready(function() 
+{
+	$('#etudiant_name').focus();
+});

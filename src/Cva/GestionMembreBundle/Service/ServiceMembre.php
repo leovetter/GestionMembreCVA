@@ -49,6 +49,11 @@ class ServiceMembre {
 		return $repository->findOneById($id);
 	}
 
+	public function GetEtudiantByNumEtu($numEtu) {	
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
+		return $repository->findOneByNumEtudiant($numEtu);
+	}
+
 	public function GetEtudiantByAnnee($annee) {	
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
 		return $repository->findByAnnee($annee);
@@ -159,6 +164,15 @@ class ServiceMembre {
 		return $produits;
 	}
 	
+	public function GetProduitEtudiant($numEtu)
+	{
+		$query = $this->em->createQuery('SELECT Produit.description FROM Etudiant LEFT JOIN Paiement ON Etudiant.id=Paiement.etudiant_id LEFT JOIN paiement_produits ON Paiement.id=paiement_produits.paiement_id LEFT JOIN Produit ON paiement_produits.produit_id=Produit.id WHERE Etudiant.numEtudiant=:numEtu')->setParameter('numEtu' , $numEtu);
+
+		$prodEtu = $query->getResult();
+
+		return $prodEtu;
+	}
+
 	public function GetBizuthWEIAvecDetails()
 	{
 		$bizuths = $this->GetEtudiantByAnnee(1);

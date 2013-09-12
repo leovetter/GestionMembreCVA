@@ -22,6 +22,9 @@ security:
         login_firewall:
             pattern: ^/login$
             anonymous: true
+        api:
+            pattern: ^/api
+            anonymous: true	
         main:
             pattern:   ^/
             anonymous: false

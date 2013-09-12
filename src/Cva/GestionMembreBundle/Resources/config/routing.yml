@@ -89,6 +89,10 @@ cva_gestion_membre_profil:
     pattern:  /profil
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:profil }
 
+cva_gestion_membre_get:
+    pattern:  /get
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:get }
+
 cva_gestion_membre_exportCSV:
     pattern:  /exportCSV
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:exportCSV }

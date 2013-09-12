@@ -560,6 +560,42 @@ return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
 		));
 	  }
 
+	public function getAction( Request $request )
+	{
+		$date = getdate();
+		$annee = $date['year'];
+		//if($request->request->get('numEtu'))
+if(isset($_GET['numEtu']))
+		{
+			$prod = $this->get('cva_gestion_membre')->GetProduitEtudiant($request->request->get('numEtu'));
+			echo "coucou";
+			//traiement sur le nom pour check
+			if ( count($prod) > 0)
+			{
+				foreach ($prod as $p)
+				{
+					if (preg_match("#^VA".$annee."#", "p"))
+					{
+						$result = json_encode("true");
+					}
+					else
+					{
+						$result = json_encode("false");
+					}
+				}
+			}
+			else
+			{
+				$result = json_encode("false");				
+			}
+		}
+		else
+		{
+			$result = json_encode("false");
+		}
+		echo $result;
+	}
+
 	public function statsAction()
 	{
 		//Ventes Mois
@@ -600,7 +636,9 @@ return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
 			foreach($adherents as &$bizuth)
 			{
 				$venteAnnee[$bizuth->getAnnee()]++;
-				$venteDepart[$bizuth->getDepartement()]++;
+				if($bizuth->getDepartement()) {
+					$venteDepart[$bizuth->getDepartement()]++;
+				}
 			}		
 		}
 
