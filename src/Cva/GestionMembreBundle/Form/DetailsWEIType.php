@@ -11,8 +11,8 @@ class DetailsWEIType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-		->add('bus', 'text')
-		->add('bungalow', 'text');
+		->add('bus', 'text', array('required' => false))
+		->add('bungalow', 'text', array('required' => false));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

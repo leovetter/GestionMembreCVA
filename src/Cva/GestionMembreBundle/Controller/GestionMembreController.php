@@ -104,6 +104,17 @@ class GestionMembreController extends Controller
 				$em->persist($etudiant);
 				$em->flush();
 				$this->get('session')->getFlashBag()->add('notice', 'Etudiant ajouté');
+				
+				//Affichage mineur
+				$anniv = $etudiant->getBirthday();
+				$inter = $anniv->diff(new DateTime());
+				$age = $inter->format('%y');
+				if($age<18)
+				{
+					$this->get('session')->getFlashBag()->add('warning', 'Cet etudiant est mineur !');
+				}
+
+
 				return $this->redirect('paiement?id=' . $etudiant->getId());
 			}
 		}
@@ -209,6 +220,16 @@ return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
 				$em->persist($etudiant);
 				$em->flush();
 				$this->get('session')->getFlashBag()->add('notice', 'Etudiant modifié');
+
+				//Affichage mineur
+				$anniv = $etudiant->getBirthday();
+				$inter = $anniv->diff(new DateTime());
+				$age = $inter->format('%y');
+				if($age<18)
+				{
+					$this->get('session')->getFlashBag()->add('warning', 'Cet etudiant est mineur !');
+				}
+
 				return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
 			}
 		}
@@ -350,7 +371,8 @@ return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
 		$detailsWEI = $this->get('cva_gestion_membre')->GetDetailsByIdEtudiant($id);
 		if($detailsWEI==NULL)
 		{ 
-			$detailsWEI = new DetailsWEI(); 
+			$detailsWEI = new DetailsWEI();
+			$detailsWEI->setBus('Bus'); 
 		}
 		
 		$form = $this->createForm(new DetailsWEIType(), $detailsWEI);

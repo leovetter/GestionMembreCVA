@@ -19,6 +19,7 @@
  						<tr id="search">
 							<th>Nom</th>
 							<th>Prénom</th>
+							<th>Date de Naissance</th>
 							<th>Bus</th>
 							<th>Bungalow</th>
 							<th class="hidden">Majeur ?</th>
@@ -33,6 +34,7 @@
 								<tr id="{{ adh.bizuth.id }}" onclick="return voir({{ adh.bizuth.id }});">
 									  <td>{{ adh.bizuth.name}}</td>
 									  <td>{{ adh.bizuth.firstName }}</td>
+									<td>{{ adh.bizuth.birthday|date('d-m-Y') }}</td>
 									  <td>{{ adh.bus }}</td>
 									  <td>{{ adh.bung }}</td>
 									<td class="hidden"> {{ adh.majeur }} </td>
